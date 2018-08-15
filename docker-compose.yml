@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  rnode0:
+    container_name: rnode0
+    user: root
+    image: rchain/rnode:dev
+    restart: always
+    command: run -s --host rnode0 -n -p 50500
+    volumes:
+      - ./rnode0:/var/lib/rnode
+    networks:
+      - rchain-net
+
+  rnode1:
+    container_name: rnode1
+    user: root
+    image: rchain/rnode:dev
+    restart: always
+    command: --grpc-port 50511 run --default-timeout 6000 --validator-private-key $RNODE_1_VALIDATOR_PRIVATE_KEY -b $RNODE_0_ADDRESS --host rnode1 -n -p 50510
+    volumes:
+      - ./rnode1:/var/lib/rnode
+    networks:
+      - rchain-net
+
+networks:
+  rchain-net:
