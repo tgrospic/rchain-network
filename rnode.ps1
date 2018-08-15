@@ -1,7 +1,7 @@
 # Powershell helper script
 
 # remote node config (rnode1)
-$rnodeVer = 'dev';
+$rnodeVer = 'master';
 $grpcHost = 'rnode1';
 $grpcPort = 50511;
 

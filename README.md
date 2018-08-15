@@ -55,7 +55,7 @@ Using scripts for Linux `./rnode` and Windows `./rnode.ps1`.
 ```sh
 # rnode alias
 function rnode {
-  rnodeVer=dev;
+  rnodeVer=master;
   grpcHost=rnode1;
   grpcPort=50511;
   # execute rnode command
@@ -68,7 +68,7 @@ function rnode {
 ```powershell
 # rnode alias
 function rnode {
-  $rnodeVer = 'dev';
+  $rnodeVer = 'master';
   $grpcHost = 'rnode1';
   $grpcPort = 50511;
   docker run -it --rm --network rchain-network_rchain-net -v $PWD/contracts:/contracts rchain/rnode:$rnodeVer --grpc-host $grpcHost -g $grpcPort $args;
