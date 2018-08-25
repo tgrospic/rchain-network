@@ -6,7 +6,9 @@ services:
     user: root
     image: rchain/rnode:$RNODE_VERSION
     restart: always
-    command: run -s --host rnode0 -n -p 50500
+    command: run -s --host rnode0 -n -p 50500 -m 50513
+    ports:
+      - 50503:50513
     volumes:
       - ./rnode0:/var/lib/rnode
     networks:
@@ -17,9 +19,47 @@ services:
     user: root
     image: rchain/rnode:$RNODE_VERSION
     restart: always
-    command: --grpc-port 50511 run --default-timeout 6000 --validator-private-key $RNODE_1_VALIDATOR_PRIVATE_KEY -b $RNODE_0_ADDRESS --host rnode1 -n -p 50510
+    command: --grpc-port 50511 run --default-timeout 6000 --validator-private-key $RNODE_1_VALIDATOR_PRIVATE_KEY -b $RNODE_0_ADDRESS --host rnode1 -n -p 50510 -m 50513
+    ports:
+      - 50513:50513
     volumes:
       - ./rnode1:/var/lib/rnode
+    networks:
+      - rchain-net
+
+  rnode2:
+    container_name: rnode2
+    user: root
+    image: rchain/rnode:$RNODE_VERSION
+    restart: always
+    command: --grpc-port 50511 run --default-timeout 6000 --validator-private-key $RNODE_1_VALIDATOR_PRIVATE_KEY -b rnode://9331e0cd975f858b4388acf4367688dad7543cff@rnode1:50510 --host rnode2 -n -p 50510 -m 50513
+    ports:
+      - 50523:50513
+    volumes:
+      - ./rnode2:/var/lib/rnode
+    networks:
+      - rchain-net
+
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus
+    restart: always
+    ports:
+      - 9090:9090
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - rchain-net
+
+  grafana:
+    user: "104"
+    container_name: grafana
+    image: grafana/grafana:5.2.2
+    restart: always
+    ports:
+      - 3333:3000
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
     networks:
       - rchain-net
 

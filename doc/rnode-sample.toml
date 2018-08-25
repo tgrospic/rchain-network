@@ -1,0 +1,27 @@
+[server]
+host = "localhost"
+port = 10
+metrics-port = 11
+no-upnp = false
+default-timeout = 1000
+bootstrap = "rnode://acd0b05a971c243817a0cfd469f5d1a238c60294@52.119.8.109:40400"
+standalone = true
+data-dir = "/tmp/rchain"
+map-size = 200000000
+
+[grpc-server]
+host = "grpc"
+port = 12
+
+[tls]
+certificate = "/tls/certificate.pem"
+key = "/tls/key.pem"
+
+[validators]
+count = 5
+bonds-file = "/validator/bonds"
+known = "v1"
+public-key = "88888"
+private-key = "99999"
+sig-algorithm = "ed25519"
+wallets-file = "/validator/wallet"
